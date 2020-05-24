@@ -7,14 +7,16 @@ package com.mgolebio.snake_with_ai;
 
 
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-
 /**
  *
- * @author mgole
+ * @author maciej golebiowski
+ * 
  */
 public class Menu extends javax.swing.JFrame {
 
@@ -22,14 +24,27 @@ public class Menu extends javax.swing.JFrame {
      * Creates new form Menu
      */
     public Menu() {
-        this.setUndecorated(true);
         initComponents();
-        this.setResizable(false);
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon cup = new ImageIcon("D:\\Programming\\JAVA\\snake_with_ai\\graphics\\pngwing.com.png");
+        initBestScore();
+        ImageIcon cup = new ImageIcon("D:\\Programming\\JAVA\\snake_with_ai\\graphics\\pngwing.png");
         cupIconLabel.setIcon(cup);
     }
 
+    private void initBestScore(){
+        String path = "D:\\Programming\\JAVA\\snake_with_ai\\tmp_files\\bestScore.txt";
+        File scoreFile = new File(path);
+        try {
+            Scanner scanner = new Scanner(scoreFile);
+            int best = 0;
+            if(scanner.hasNextInt())
+                   best = scanner.nextInt();
+            
+            this.bestScoreLabel.setText(best+" points"); 
+        } catch (FileNotFoundException ex) {
+            this.bestScoreLabel.setText("0 points");
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,10 +57,15 @@ public class Menu extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         startGameButton = new javax.swing.JButton();
+        exitButton = new javax.swing.JLabel();
         bestScoreInfoLabel = new javax.swing.JLabel();
         cupIconLabel = new javax.swing.JLabel();
+        bestScoreLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setFocusCycleRoot(false);
+        setLocationByPlatform(true);
+        setUndecorated(true);
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 153));
         jPanel2.setName(""); // NOI18N
@@ -62,6 +82,17 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
+        exitButton.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        exitButton.setForeground(new java.awt.Color(153, 0, 153));
+        exitButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        exitButton.setText("X");
+        exitButton.setToolTipText("");
+        exitButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                exitButtonMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -70,11 +101,17 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(136, 136, 136)
                 .addComponent(startGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(141, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(320, 320, 320)
+                .addContainerGap()
+                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(263, 263, 263)
                 .addComponent(startGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -87,6 +124,9 @@ public class Menu extends javax.swing.JFrame {
         cupIconLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         cupIconLabel.setToolTipText("");
 
+        bestScoreLabel.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        bestScoreLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -97,18 +137,21 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(cupIconLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(bestScoreInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(bestScoreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(cupIconLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(70, 70, 70)
+                .addComponent(cupIconLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bestScoreInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(205, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bestScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(209, Short.MAX_VALUE))
             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -131,6 +174,11 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_startGameButtonActionPerformed
 
+    private void exitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_exitButtonMouseClicked
+
+    
     /**
      * @param args the command line arguments
      */
@@ -168,7 +216,9 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bestScoreInfoLabel;
+    private javax.swing.JLabel bestScoreLabel;
     private javax.swing.JLabel cupIconLabel;
+    private javax.swing.JLabel exitButton;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JButton startGameButton;
