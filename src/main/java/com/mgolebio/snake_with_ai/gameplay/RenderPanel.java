@@ -15,18 +15,23 @@ public class RenderPanel extends JPanel {
         // draw board
         g.setColor(Color.DARK_GRAY);
         g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-        if(Game.over)
-        {   g.setColor(Color.MAGENTA);
-            String endMsg = "game over with result: "+ game.human.tail +"points";
+        if (Game.over) {
+            g.setColor(Color.MAGENTA);
+            String endMsg = "game over with result: " + (game.human.tail - 1) + "points";
             g.drawString(endMsg, (int) (getWidth() / 2 - endMsg.length() * 2.5f), (int) game.dim.getHeight() / 4);
-            return;
+
         }
         // draw snake
         g.setColor(Color.ORANGE);
         for (int i = 0; i < game.human.getPoints().size(); ++i) {
             g.fillRect(game.human.getPoints().get(i).x * SIZE, game.human.getPoints().get(i).y * SIZE, SIZE, SIZE);
         }
-        // draw fruit
+        // draw enemy snake
+        g.setColor(Color.BLUE);
+        for (int i = 0; i < game.enemySnake.getPoints().size(); ++i) {
+            g.fillRect(game.enemySnake.getPoints().get(i).x * SIZE, game.enemySnake.getPoints().get(i).y * SIZE, SIZE, SIZE);
+        }
+            // draw fruit
         g.setColor(Color.white);
         for (int i = 0; i < game.fruitGenerator.getPoints().size(); ++i) {
             g.fillRect(game.fruitGenerator.getPoints().get(i).x * SIZE, game.fruitGenerator.getPoints().get(i).y * SIZE, SIZE, SIZE);

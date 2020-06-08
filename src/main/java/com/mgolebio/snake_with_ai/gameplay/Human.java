@@ -16,36 +16,29 @@ public class Human extends Snake implements KeyListener {
     @Override
     public void move() {
         points.add(new Point(head.x, head.y));
-
         if (direction == Game.UP) {
             if (head.y - 1 >= 0 && noTailAt(head.x, head.y - 1)) {
                 head = new Point(head.x, head.y - 1);
-            }else{
+            } else {
                 Game.over = true;
             }
 
-        }
-
-        if (direction == Game.DOWN) {
+        } else if (direction == Game.DOWN) {
             if (head.y + 1 < 66 && noTailAt(head.x, head.y + 1)) {
                 head = new Point(head.x, head.y + 1);
-            }else{
+            } else {
                 Game.over = true;
             }
-        }
-
-        if (direction == Game.LEFT) {
+        } else if (direction == Game.LEFT) {
             if (head.x - 1 >= 0 && noTailAt(head.x - 1, head.y)) {
                 head = new Point(head.x - 1, head.y);
-            }else{
+            } else {
                 Game.over = true;
             }
-        }
-
-        if (direction == Game.RIGHT) {
-            if (head.x + 1 < 80 && noTailAt(head.x + 1, head.y)) {
+        } else if (direction == Game.RIGHT) {
+            if (head.x + 1 < 79 && noTailAt(head.x + 1, head.y)) {
                 head = new Point(head.x + 1, head.y);
-            }else{
+            } else {
                 Game.over = true;
             }
         }
