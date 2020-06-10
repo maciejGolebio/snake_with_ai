@@ -1,15 +1,20 @@
 package com.mgolebio.snake_with_ai.gameplay;
 
+import com.mgolebio.snake_with_ai.Menu;
+import lombok.SneakyThrows;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Game implements ActionListener {
+    Menu menu;
     public static final int DELAY = 120;
     public static final int WIDTH = 800;
     public static final int HEIGHT = 700;
@@ -29,9 +34,9 @@ public class Game implements ActionListener {
     public static volatile boolean  over = false;
     ScheduledExecutorService executorService;
 
-    public Game() {
+    public Game(Menu menu) {
+        this.menu = menu;
         fruitGenerator = new FruitGenerator();
-
         human = new Human(direction);
         gameObjects = new ArrayList<>();
         gameObjects.add(human);
@@ -63,11 +68,17 @@ public class Game implements ActionListener {
     }
 
     @Override
+    @SneakyThrows
     public void actionPerformed(ActionEvent e) {
         renderPanel.repaint();
         if (over) {
             executorService.shutdown();
             timer.stop();
+            String filename= "tmp_files\\bestScore.txt";
+            FileWriter fw = new FileWriter(filename,true); //the true will append the new data
+            fw.write((human.tail-1)+"\n");//appends the string to the file
+            fw.close();
+            menu.initBestScore();
         }
     }
 

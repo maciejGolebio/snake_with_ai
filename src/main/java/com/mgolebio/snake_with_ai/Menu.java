@@ -28,7 +28,7 @@ public class Menu extends javax.swing.JFrame {
         cupIconLabel.setIcon(cup);
     }
 
-    private void initBestScore() {
+    public void initBestScore() {
         String path = "D:\\Programming\\JAVA\\snake_with_ai\\tmp_files\\bestScore.txt";
         File scoreFile = new File(path);
         try {
@@ -185,7 +185,8 @@ public class Menu extends javax.swing.JFrame {
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {
         Game.game = null;
         Game.over = false;
-        Game.game = new Game();
+        Game.game = new Game(this);
+        //initBestScore();
     }//GEN-LAST:event_startGameButtonActionPerformed
 
     private void exitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseClicked

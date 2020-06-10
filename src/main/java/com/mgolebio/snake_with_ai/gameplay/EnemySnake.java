@@ -85,7 +85,7 @@ public class EnemySnake extends Snake {
                 return 1000 * 1000;
             }
         }
-        System.out.println("sam dol");
+
         return 1000 * 1000;
     }
 
@@ -105,13 +105,13 @@ public class EnemySnake extends Snake {
 
         for (int i = 0; i < 4; i++) {
             int eval = lossFunction(i);
-            System.out.println(eval + "  " + i);
+
             if (eval < best) {
                 best = eval;
                 direction = i;
             }
         }
-        System.out.println(direction);
+
         //synchronized (points) {
         points.add(new Point(head.x, head.y));
         synchronized (head) {
