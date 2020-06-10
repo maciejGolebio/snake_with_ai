@@ -3,7 +3,7 @@ package com.mgolebio.snake_with_ai.gameplay;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Human extends Snake implements KeyListener {
     public Human(int direction) {
@@ -18,26 +18,26 @@ public class Human extends Snake implements KeyListener {
         points.add(new Point(head.x, head.y));
         if (direction == Game.UP) {
             if (head.y - 1 >= 0 && noTailAt(head.x, head.y - 1)) {
-                head = new Point(head.x, head.y - 1);
+                head.y -=1; //new Point(head.x, head.y - 1);
             } else {
                 Game.over = true;
             }
 
         } else if (direction == Game.DOWN) {
             if (head.y + 1 < 66 && noTailAt(head.x, head.y + 1)) {
-                head = new Point(head.x, head.y + 1);
+                head.y +=1 ;//new Point(head.x, head.y + 1);
             } else {
                 Game.over = true;
             }
         } else if (direction == Game.LEFT) {
             if (head.x - 1 >= 0 && noTailAt(head.x - 1, head.y)) {
-                head = new Point(head.x - 1, head.y);
+                head.x -= 1;//new Point(head.x - 1, head.y);
             } else {
                 Game.over = true;
             }
         } else if (direction == Game.RIGHT) {
             if (head.x + 1 < 79 && noTailAt(head.x + 1, head.y)) {
-                head = new Point(head.x + 1, head.y);
+                head.x+=1;// new Point(head.x + 1, head.y);
             } else {
                 Game.over = true;
             }
@@ -49,7 +49,7 @@ public class Human extends Snake implements KeyListener {
     }
 
     @Override
-    public ArrayList<Point> getPoints() {
+    public List<Point> getPoints() {
         return points;
     }
 
@@ -105,6 +105,6 @@ public class Human extends Snake implements KeyListener {
 
     @Override
     public void setFruitHasBeenEaten() {
-        tail += 1;
+        super.tail += 1;
     }
 }

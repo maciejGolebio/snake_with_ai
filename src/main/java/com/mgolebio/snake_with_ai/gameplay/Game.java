@@ -10,7 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Game implements ActionListener {
-    public static final int DELAY = 65;
+    public static final int DELAY = 120;
     public static final int WIDTH = 800;
     public static final int HEIGHT = 700;
     public static final int SIZE = 10;
@@ -30,14 +30,16 @@ public class Game implements ActionListener {
     ScheduledExecutorService executorService;
 
     public Game() {
+        fruitGenerator = new FruitGenerator();
 
         human = new Human(direction);
         gameObjects = new ArrayList<>();
         gameObjects.add(human);
         enemySnake = new EnemySnake(UP,human.points);
         gameObjects.add(enemySnake);
-        fruitGenerator = new FruitGenerator(gameObjects);
-        enemySnake.setFruit(fruitGenerator.getPoints().get(0));
+        //enemySnake.setFruit(fruitGenerator.fruit);
+        fruitGenerator.setBot(enemySnake);
+        fruitGenerator.setHuman(human);
 
         dim = Toolkit.getDefaultToolkit().getScreenSize();
         jframe = new JFrame("Snake");
@@ -46,17 +48,17 @@ public class Game implements ActionListener {
         jframe.setResizable(false);
         jframe.setLocation(dim.width / 2 - jframe.getWidth() / 2, dim.height / 2 - jframe.getHeight() / 2);
         jframe.add(renderPanel = new RenderPanel());
-        jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jframe.addKeyListener(human);
-        executorService = Executors.newScheduledThreadPool(3);
+        executorService = Executors.newScheduledThreadPool(8);
         startGame();
 
     }
 
     private void startGame() {
-        executorService.scheduleAtFixedRate(human, 0, DELAY, TimeUnit.MILLISECONDS);
-        executorService.scheduleAtFixedRate(fruitGenerator, 0, DELAY, TimeUnit.MILLISECONDS);
-        executorService.scheduleAtFixedRate(enemySnake, 0, DELAY, TimeUnit.MILLISECONDS);
+        executorService.scheduleAtFixedRate(human, 5, DELAY, TimeUnit.MILLISECONDS);
+        executorService.scheduleAtFixedRate(fruitGenerator, 5, DELAY, TimeUnit.MILLISECONDS);
+        executorService.scheduleAtFixedRate(enemySnake, 5, DELAY, TimeUnit.MILLISECONDS);
         timer.start();
     }
 
@@ -66,11 +68,7 @@ public class Game implements ActionListener {
         if (over) {
             executorService.shutdown();
             timer.stop();
-
         }
     }
 
-    public static void main(String[] args) {
-        game = new Game();
-    }
 }

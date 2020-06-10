@@ -23,18 +23,22 @@ public class RenderPanel extends JPanel {
         }
         // draw snake
         g.setColor(Color.ORANGE);
-        for (int i = 0; i < game.human.getPoints().size(); ++i) {
-            g.fillRect(game.human.getPoints().get(i).x * SIZE, game.human.getPoints().get(i).y * SIZE, SIZE, SIZE);
+        synchronized (game.human.getPoints()) {
+            for (int i = 0; i < game.human.getPoints().size(); ++i) {
+                g.fillRect(game.human.getPoints().get(i).x * SIZE, game.human.getPoints().get(i).y * SIZE, SIZE, SIZE);
+            }
         }
         // draw enemy snake
         g.setColor(Color.BLUE);
-        for (int i = 0; i < game.enemySnake.getPoints().size(); ++i) {
-            g.fillRect(game.enemySnake.getPoints().get(i).x * SIZE, game.enemySnake.getPoints().get(i).y * SIZE, SIZE, SIZE);
+        synchronized (game.enemySnake.getPoints()) {
+            for (int i = 0; i < game.enemySnake.getPoints().size(); ++i) {
+                g.fillRect(game.enemySnake.getPoints().get(i).x * SIZE, game.enemySnake.getPoints().get(i).y * SIZE, SIZE, SIZE);
+            }
         }
-            // draw fruit
+        // draw fruit
         g.setColor(Color.white);
-        for (int i = 0; i < game.fruitGenerator.getPoints().size(); ++i) {
-            g.fillRect(game.fruitGenerator.getPoints().get(i).x * SIZE, game.fruitGenerator.getPoints().get(i).y * SIZE, SIZE, SIZE);
+        synchronized (game.fruitGenerator.fruit) {
+            g.fillRect(game.fruitGenerator.fruit.x * SIZE, game.fruitGenerator.fruit.y * SIZE, SIZE, SIZE);
         }
     }
 
