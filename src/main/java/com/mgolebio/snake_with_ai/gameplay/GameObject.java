@@ -5,5 +5,5 @@ import java.awt.Point;
 import java.util.List;
 public interface GameObject extends Runnable {
     void move();
-    List<Point> getPoints();
+
 }

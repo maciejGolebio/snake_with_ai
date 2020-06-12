@@ -63,11 +63,6 @@ public class FruitGenerator implements GameObject {
     }
 
 
-    @Override
-    public ArrayList<Point> getPoints() {
-        return null;
-    }
-
     public boolean collision() {
         synchronized (bot.head){
             if(bot.head.equals(fruit)){

@@ -104,7 +104,12 @@ public class Human extends Snake implements KeyListener {
     }
 
     @Override
-    public void setFruitHasBeenEaten() {
+    public synchronized void setFruitHasBeenEaten() {
         super.tail += 1;
+    }
+
+    @Override
+    public synchronized void setFruitHasBeenEaten(int x) {
+        super.tail+=x;
     }
 }

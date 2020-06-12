@@ -21,6 +21,16 @@ public class RenderPanel extends JPanel {
             g.drawString(endMsg, (int) (getWidth() / 2 - endMsg.length() * 2.5f), (int) game.dim.getHeight() / 4);
 
         }
+        // draw fruit
+        g.setColor(Color.white);
+        synchronized (game.fruitGenerator.fruit) {
+            g.fillRect(game.fruitGenerator.fruit.x * SIZE, game.fruitGenerator.fruit.y * SIZE, SIZE, SIZE);
+        }
+        // draw frog
+        g.setColor(Color.GREEN);
+        synchronized (game.frog.head){
+            g.fillRect(game.frog.head.x * SIZE, game.frog.head.y * SIZE, SIZE, SIZE);
+        }
         // draw snake
         g.setColor(Color.ORANGE);
         synchronized (game.human.getPoints()) {
@@ -35,12 +45,6 @@ public class RenderPanel extends JPanel {
                 g.fillRect(game.enemySnake.getPoints().get(i).x * SIZE, game.enemySnake.getPoints().get(i).y * SIZE, SIZE, SIZE);
             }
         }
-        // draw fruit
-        g.setColor(Color.white);
-        synchronized (game.fruitGenerator.fruit) {
-            g.fillRect(game.fruitGenerator.fruit.x * SIZE, game.fruitGenerator.fruit.y * SIZE, SIZE, SIZE);
-        }
+
     }
-
-
 }

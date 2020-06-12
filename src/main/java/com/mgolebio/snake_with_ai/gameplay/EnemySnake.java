@@ -28,7 +28,6 @@ public class EnemySnake extends Snake {
                     }
                 }
                 synchronized (Game.game.fruitGenerator.fruit) {
-                    //System.out.println(Game.game.fruitGenerator.fruit);
                     return Math.abs(Game.game.fruitGenerator.fruit.x - head.x)
                             + Math.abs((head.y - 1) - Game.game.fruitGenerator.fruit.y);
                 }
@@ -101,18 +100,14 @@ public class EnemySnake extends Snake {
     @Override
     public void move() {
         int best = 100000000;
-        //int tmp = direction;
-
-        for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 4; i++) {
             int eval = lossFunction(i);
-
             if (eval < best) {
                 best = eval;
                 direction = i;
             }
         }
 
-        //synchronized (points) {
         points.add(new Point(head.x, head.y));
         synchronized (head) {
             //System.out.println("in sn");
@@ -159,7 +154,12 @@ public class EnemySnake extends Snake {
     }
 
     @Override
-    public void setFruitHasBeenEaten() {
+    public synchronized void setFruitHasBeenEaten() {
         super.tail += 1;
+    }
+
+    @Override
+    public synchronized void setFruitHasBeenEaten(int x) {
+        super.tail+=x;
     }
 }

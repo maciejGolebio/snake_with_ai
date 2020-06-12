@@ -10,6 +10,8 @@ public abstract class Snake implements GameObject{
     public Point head;
     public final List<Point> points = Collections.synchronizedList(new ArrayList<Point>());
     public int tail=1;
-    public abstract  void setFruitHasBeenEaten();
+    public abstract List<Point> getPoints();
+    public abstract void setFruitHasBeenEaten();
+    public abstract void setFruitHasBeenEaten(int x);
 
 }

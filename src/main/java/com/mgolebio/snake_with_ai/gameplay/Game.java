@@ -14,7 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Game implements ActionListener {
-    Menu menu;
+    private final Menu menu;
     public static final int DELAY = 120;
     public static final int WIDTH = 800;
     public static final int HEIGHT = 700;
@@ -23,7 +23,8 @@ public class Game implements ActionListener {
     public Human human;
     public EnemySnake enemySnake;
     public FruitGenerator fruitGenerator;
-    ArrayList<Snake> gameObjects;
+    public Frog frog;
+    private ArrayList<Snake> gameObjects;
 
     public Dimension dim;
     public JFrame jframe;
@@ -37,6 +38,7 @@ public class Game implements ActionListener {
     public Game(Menu menu) {
         this.menu = menu;
         fruitGenerator = new FruitGenerator();
+        frog = new Frog();
         human = new Human(direction);
         gameObjects = new ArrayList<>();
         gameObjects.add(human);
@@ -45,7 +47,8 @@ public class Game implements ActionListener {
         //enemySnake.setFruit(fruitGenerator.fruit);
         fruitGenerator.setBot(enemySnake);
         fruitGenerator.setHuman(human);
-
+        frog.setBot(enemySnake);
+        frog.setHuman(human);
         dim = Toolkit.getDefaultToolkit().getScreenSize();
         jframe = new JFrame("Snake");
         jframe.setVisible(true);
@@ -64,6 +67,7 @@ public class Game implements ActionListener {
         executorService.scheduleAtFixedRate(human, 5, DELAY, TimeUnit.MILLISECONDS);
         executorService.scheduleAtFixedRate(fruitGenerator, 5, DELAY, TimeUnit.MILLISECONDS);
         executorService.scheduleAtFixedRate(enemySnake, 5, DELAY, TimeUnit.MILLISECONDS);
+        executorService.scheduleAtFixedRate(frog, 5, DELAY, TimeUnit.MILLISECONDS);
         timer.start();
     }
 
