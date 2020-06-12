@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.mgolebio.snake_with_ai"},{"l":"com.mgolebio.snake_with_ai.game"},{"l":"com.mgolebio.snake_with_ai.gameplay"}]
