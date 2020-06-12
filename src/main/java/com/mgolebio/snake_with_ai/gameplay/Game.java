@@ -18,6 +18,8 @@ public class Game implements ActionListener {
     public static final int DELAY = 120;
     public static final int WIDTH = 800;
     public static final int HEIGHT = 700;
+    public static final int BOARD_WIDTH = 78;
+    public static final int BOARD_HEIGHT = 66;
     public static final int SIZE = 10;
     public static Game game;
     public Human human;

@@ -18,14 +18,14 @@ public class Human extends Snake implements KeyListener {
         points.add(new Point(head.x, head.y));
         if (direction == Game.UP) {
             if (head.y - 1 >= 0 && noTailAt(head.x, head.y - 1)) {
-                head.y -=1; //new Point(head.x, head.y - 1);
+                head.y -= 1; //new Point(head.x, head.y - 1);
             } else {
                 Game.over = true;
             }
 
         } else if (direction == Game.DOWN) {
-            if (head.y + 1 < 66 && noTailAt(head.x, head.y + 1)) {
-                head.y +=1 ;//new Point(head.x, head.y + 1);
+            if (head.y + 1 < Game.BOARD_HEIGHT && noTailAt(head.x, head.y + 1)) {
+                head.y += 1;//new Point(head.x, head.y + 1);
             } else {
                 Game.over = true;
             }
@@ -36,8 +36,8 @@ public class Human extends Snake implements KeyListener {
                 Game.over = true;
             }
         } else if (direction == Game.RIGHT) {
-            if (head.x + 1 < 79 && noTailAt(head.x + 1, head.y)) {
-                head.x+=1;// new Point(head.x + 1, head.y);
+            if (head.x + 1 <= Game.BOARD_WIDTH && noTailAt(head.x + 1, head.y)) {
+                head.x += 1;// new Point(head.x + 1, head.y);
             } else {
                 Game.over = true;
             }
@@ -110,6 +110,6 @@ public class Human extends Snake implements KeyListener {
 
     @Override
     public synchronized void setFruitHasBeenEaten(int x) {
-        super.tail+=x;
+        super.tail += x;
     }
 }

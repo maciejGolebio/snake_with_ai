@@ -4,11 +4,13 @@ package com.mgolebio.snake_with_ai.gameplay;
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 
 public class EnemySnake extends Snake {
 
     public List<Point> human;
+    private Random random = new Random();
 
     public EnemySnake(int direction, List<Point> human) {
         this.direction = direction;
@@ -36,7 +38,7 @@ public class EnemySnake extends Snake {
             }
         } else if (hipoteseDirection == Game.DOWN) {
 
-            if (head.y + 1 <= 66 && noTailAt(head.x, head.y + 1)) {
+            if (head.y + 1 <= Game.BOARD_HEIGHT && noTailAt(head.x, head.y + 1)) {
 
                 Point tmp = new Point(head.x, head.y + 1);
                 for (int i = 0; i < human.size(); ++i) {
@@ -69,7 +71,7 @@ public class EnemySnake extends Snake {
                 return 1000 * 1000;
             }
         } else if (hipoteseDirection == Game.RIGHT) {
-            if (head.x + 1 < 79 && noTailAt(head.x + 1, head.y)) {
+            if (head.x + 1 <= Game.BOARD_WIDTH && noTailAt(head.x + 1, head.y)) {
                 Point tmp = new Point(head.x + 1, head.y);
                 for (int i = 0; i < human.size(); ++i) {
                     if (tmp.equals(human.get(i))) {
@@ -115,32 +117,41 @@ public class EnemySnake extends Snake {
                 if (head.y - 1 >= 0) {
                     head.y -= 1; // = new Point(head.x, head.y - 1);
                 } else {
-                    Game.over = true;
+                    setAfterCollision();
                 }
 
             } else if (direction == Game.DOWN) {
-                if (head.y + 1 < 66) {
+                if (head.y + 1 <= Game.BOARD_HEIGHT) {
                     head.y += 1; //= new Point(head.x, head.y + 1);
                 } else {
-                    Game.over = true;
+                    setAfterCollision();
                 }
             } else if (direction == Game.LEFT) {
                 if (head.x - 1 >= 0) {
                     head.x -= 1;// = new Point(head.x - 1, head.y);
                 } else {
-                    Game.over = true;
+                    setAfterCollision();
                 }
             } else if (direction == Game.RIGHT) {
-                if (head.x + 1 < 79) {
+                if (head.x + 1 <= Game.BOARD_WIDTH) {
                     head.x += 1;// = new Point(head.x + 1, head.y);
                 } else {
-                    Game.over = true;
+                    setAfterCollision();
                 }
             }
             if (points.size() > super.tail) {
                 points.remove(0);
             }
         }
+    }
+
+    public void setAfterCollision(){
+        Game.game.human.setFruitHasBeenEaten(10);
+        super.tail=1;
+        points.clear();
+        head.x = random.nextInt(Game.BOARD_WIDTH);
+        head.y = random.nextInt(Game.BOARD_HEIGHT);
+        points.add(new Point(head.x,head.y));
     }
 
     @Override

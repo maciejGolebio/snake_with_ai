@@ -15,8 +15,8 @@ public class Frog implements GameObject {
 
     public Frog(){
         this.head = new Point();
-        head.x = random.nextInt(78);
-        head.y = random.nextInt(66);
+        head.x = random.nextInt(Game.BOARD_WIDTH);
+        head.y = random.nextInt(Game.BOARD_HEIGHT);
     }
 
 
@@ -27,7 +27,7 @@ public class Frog implements GameObject {
             if (head.y - 1 >= 0) {
                 head.y -= 1;             }
         } else if (direction == Game.DOWN) {
-            if (head.y + 1 < 66) {
+            if (head.y + 1 < Game.BOARD_HEIGHT) {
                 head.y +=1 ;            }
         } else if (direction == Game.LEFT) {
             if (head.x - 1 >= 0) {
@@ -48,8 +48,8 @@ public class Frog implements GameObject {
                 move();
         }else {
             isEaten = false;
-            head.x = random.nextInt(78);
-            head.y = random.nextInt(66);
+            head.x = random.nextInt(Game.BOARD_WIDTH);
+            head.y = random.nextInt(Game.BOARD_HEIGHT);
         }
     }
 
