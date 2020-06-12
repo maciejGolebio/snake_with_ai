@@ -19,20 +19,31 @@ public class EnemySnake extends Snake {
         this.human = Collections.synchronizedList(human);
     }
 
+    private int cost(int x, int y) {
+        //synchronized (Game.game.fruitGenerator.fruit) {
+        int fruit = Math.abs(x - Game.game.fruitGenerator.fruit.x) + Math.abs(y - Game.game.fruitGenerator.fruit.y);
+        //}
+        //synchronized (Game.game.frog.head){
+        int frog = Math.abs(x - Game.game.frog.head.x) + Math.abs(y - Game.game.frog.head.y);
+        //}
+        return Math.min(frog, fruit);
+    }
+
     public int lossFunction(int hipoteseDirection) {
         if (hipoteseDirection == Game.UP) {
             if (head.y - 1 >= 0 && noTailAt(head.x, head.y - 1)) {
                 Point tmp = new Point(head.x, head.y - 1);
-                for (int i = 0; i < human.size(); ++i) {
-                    if (tmp.equals(human.get(i))) {
+                for (Point point : human) {
+                    if (tmp.equals(point)) {
 
                         return 1000 * 1000;
                     }
                 }
-                synchronized (Game.game.fruitGenerator.fruit) {
+                return cost(head.x, head.y - 1);
+                /*synchronized (Game.game.fruitGenerator.fruit) {
                     return Math.abs(Game.game.fruitGenerator.fruit.x - head.x)
                             + Math.abs((head.y - 1) - Game.game.fruitGenerator.fruit.y);
-                }
+                }*/
             } else {
                 return 1000 * 1000;
             }
@@ -41,16 +52,17 @@ public class EnemySnake extends Snake {
             if (head.y + 1 <= Game.BOARD_HEIGHT && noTailAt(head.x, head.y + 1)) {
 
                 Point tmp = new Point(head.x, head.y + 1);
-                for (int i = 0; i < human.size(); ++i) {
-                    if (tmp.equals(human.get(i))) {
+                for (Point point : human) {
+                    if (tmp.equals(point)) {
 
                         return 1000 * 1000;
                     }
                 }
-                synchronized (Game.game.fruitGenerator.fruit) {
+                return cost(head.x, head.y + 1);
+                /*synchronized (Game.game.fruitGenerator.fruit) {
                     return Math.abs(Game.game.fruitGenerator.fruit.x - head.x)
                             + Math.abs((head.y + 1) - Game.game.fruitGenerator.fruit.y);
-                }
+                }*/
             } else {
 
                 return 1000 * 1000;
@@ -59,28 +71,32 @@ public class EnemySnake extends Snake {
 
             if (head.x - 1 >= 0 && noTailAt(head.x - 1, head.y)) {
                 Point tmp = new Point(head.x - 1, head.y);
-                for (int i = 0; i < human.size(); ++i) {
-                    if (tmp.equals(human.get(i))) {
+                for (Point point : human) {
+                    if (tmp.equals(point)) {
                         return 1000 * 1000;
                     }
                 }
-                synchronized (Game.game.fruitGenerator.fruit) {
-                    return Math.abs((head.x - 1) - Game.game.fruitGenerator.fruit.x) + Math.abs(head.y - Game.game.fruitGenerator.fruit.y);
-                }
+                return cost(head.x - 1, head.y);
+                /*synchronized (Game.game.fruitGenerator.fruit) {
+                    return Math.abs((head.x - 1) - Game.game.fruitGenerator.fruit.x)
+                            + Math.abs(head.y - Game.game.fruitGenerator.fruit.y);
+                }*/
             } else {
                 return 1000 * 1000;
             }
         } else if (hipoteseDirection == Game.RIGHT) {
             if (head.x + 1 <= Game.BOARD_WIDTH && noTailAt(head.x + 1, head.y)) {
                 Point tmp = new Point(head.x + 1, head.y);
-                for (int i = 0; i < human.size(); ++i) {
-                    if (tmp.equals(human.get(i))) {
+                for (Point point : human) {
+                    if (tmp.equals(point)) {
                         return 1000 * 1000;
                     }
                 }
-                synchronized (Game.game.fruitGenerator.fruit) {
-                    return Math.abs((head.x + 1) - Game.game.fruitGenerator.fruit.x) + Math.abs(head.y - Game.game.fruitGenerator.fruit.y);
-                }
+                return cost(head.x + 1, head.y);
+                /*synchronized (Game.game.fruitGenerator.fruit) {
+                    return Math.abs((head.x + 1) - Game.game.fruitGenerator.fruit.x)
+                            + Math.abs(head.y - Game.game.fruitGenerator.fruit.y);
+                }*/
             } else {
 
                 return 1000 * 1000;
@@ -102,14 +118,17 @@ public class EnemySnake extends Snake {
     @Override
     public void move() {
         int best = 100000000;
-                for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             int eval = lossFunction(i);
             if (eval < best) {
                 best = eval;
                 direction = i;
             }
         }
-
+        if (best==1000*1000){
+            setAfterCollision();
+            return;
+        }
         points.add(new Point(head.x, head.y));
         synchronized (head) {
             //System.out.println("in sn");
@@ -145,13 +164,13 @@ public class EnemySnake extends Snake {
         }
     }
 
-    public void setAfterCollision(){
+    public void setAfterCollision() {
         Game.game.human.setFruitHasBeenEaten(10);
-        super.tail=1;
+        super.tail = 1;
         points.clear();
         head.x = random.nextInt(Game.BOARD_WIDTH);
         head.y = random.nextInt(Game.BOARD_HEIGHT);
-        points.add(new Point(head.x,head.y));
+        points.add(new Point(head.x, head.y));
     }
 
     @Override
@@ -171,6 +190,6 @@ public class EnemySnake extends Snake {
 
     @Override
     public synchronized void setFruitHasBeenEaten(int x) {
-        super.tail+=x;
+        super.tail += x;
     }
 }
