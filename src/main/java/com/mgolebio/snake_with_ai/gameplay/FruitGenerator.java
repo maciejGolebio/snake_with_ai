@@ -3,12 +3,12 @@ package com.mgolebio.snake_with_ai.gameplay;
 import lombok.Setter;
 
 import java.awt.*;
-import java.util.List;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
 @Setter
 public class FruitGenerator implements GameObject {
-    //private List<Snake> objects;
     private Snake human;
     private Snake bot;
     public final Point fruit;
@@ -21,19 +21,14 @@ public class FruitGenerator implements GameObject {
         fruit.y = random.nextInt(66);
     }
 
-
-//    public void setObjects(ArrayList<Snake> objects) {
-//        this.objects = Collections.synchronizedList(objects);
-//    }
-
     @Override
     public void move() {
 
         Set<Point> points = new HashSet<>();
-        synchronized (human.points){
+        synchronized (human.points) {
             points.addAll(human.points);
         }
-        synchronized (bot.points){
+        synchronized (bot.points) {
             points.addAll(bot.points);
         }
         int x = random.nextInt(79);
@@ -58,20 +53,19 @@ public class FruitGenerator implements GameObject {
             fruit.x = x;
             fruit.y = y;
         }
-        isEaten=false;
+        isEaten = false;
 
     }
 
-
     public boolean collision() {
-        synchronized (bot.head){
-            if(bot.head.equals(fruit)){
+        synchronized (bot.head) {
+            if (bot.head.equals(fruit)) {
                 bot.setFruitHasBeenEaten();
                 return true;
             }
         }
-        synchronized (human.head){
-            if(human.head.equals(fruit)){
+        synchronized (human.head) {
+            if (human.head.equals(fruit)) {
                 human.setFruitHasBeenEaten();
                 return true;
             }
@@ -82,7 +76,7 @@ public class FruitGenerator implements GameObject {
     @Override
     public void run() {
         if (!isEaten) {
-            isEaten=(collision());
+            isEaten = (collision());
         } else {
             move();
         }

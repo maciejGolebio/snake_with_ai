@@ -20,12 +20,8 @@ public class EnemySnake extends Snake {
     }
 
     private int cost(int x, int y) {
-        //synchronized (Game.game.fruitGenerator.fruit) {
         int fruit = Math.abs(x - Game.game.fruitGenerator.fruit.x) + Math.abs(y - Game.game.fruitGenerator.fruit.y);
-        //}
-        //synchronized (Game.game.frog.head){
         int frog = Math.abs(x - Game.game.frog.head.x) + Math.abs(y - Game.game.frog.head.y);
-        //}
         return Math.min(frog, fruit);
     }
 
@@ -35,15 +31,11 @@ public class EnemySnake extends Snake {
                 Point tmp = new Point(head.x, head.y - 1);
                 for (Point point : human) {
                     if (tmp.equals(point)) {
-
                         return 1000 * 1000;
                     }
                 }
                 return cost(head.x, head.y - 1);
-                /*synchronized (Game.game.fruitGenerator.fruit) {
-                    return Math.abs(Game.game.fruitGenerator.fruit.x - head.x)
-                            + Math.abs((head.y - 1) - Game.game.fruitGenerator.fruit.y);
-                }*/
+
             } else {
                 return 1000 * 1000;
             }
@@ -59,12 +51,8 @@ public class EnemySnake extends Snake {
                     }
                 }
                 return cost(head.x, head.y + 1);
-                /*synchronized (Game.game.fruitGenerator.fruit) {
-                    return Math.abs(Game.game.fruitGenerator.fruit.x - head.x)
-                            + Math.abs((head.y + 1) - Game.game.fruitGenerator.fruit.y);
-                }*/
-            } else {
 
+            } else {
                 return 1000 * 1000;
             }
         } else if (hipoteseDirection == Game.LEFT) {
@@ -77,10 +65,7 @@ public class EnemySnake extends Snake {
                     }
                 }
                 return cost(head.x - 1, head.y);
-                /*synchronized (Game.game.fruitGenerator.fruit) {
-                    return Math.abs((head.x - 1) - Game.game.fruitGenerator.fruit.x)
-                            + Math.abs(head.y - Game.game.fruitGenerator.fruit.y);
-                }*/
+
             } else {
                 return 1000 * 1000;
             }
@@ -93,16 +78,10 @@ public class EnemySnake extends Snake {
                     }
                 }
                 return cost(head.x + 1, head.y);
-                /*synchronized (Game.game.fruitGenerator.fruit) {
-                    return Math.abs((head.x + 1) - Game.game.fruitGenerator.fruit.x)
-                            + Math.abs(head.y - Game.game.fruitGenerator.fruit.y);
-                }*/
             } else {
-
                 return 1000 * 1000;
             }
         }
-
         return 1000 * 1000;
     }
 
@@ -125,38 +104,20 @@ public class EnemySnake extends Snake {
                 direction = i;
             }
         }
-        if (best==1000*1000){
+        if (best == 1000 * 1000) {
             setAfterCollision();
             return;
         }
         points.add(new Point(head.x, head.y));
         synchronized (head) {
-            //System.out.println("in sn");
             if (direction == Game.UP) {
-                if (head.y - 1 >= 0) {
-                    head.y -= 1; // = new Point(head.x, head.y - 1);
-                } else {
-                    setAfterCollision();
-                }
-
+                head.y -= 1;
             } else if (direction == Game.DOWN) {
-                if (head.y + 1 <= Game.BOARD_HEIGHT) {
-                    head.y += 1; //= new Point(head.x, head.y + 1);
-                } else {
-                    setAfterCollision();
-                }
+                head.y += 1;
             } else if (direction == Game.LEFT) {
-                if (head.x - 1 >= 0) {
-                    head.x -= 1;// = new Point(head.x - 1, head.y);
-                } else {
-                    setAfterCollision();
-                }
+                head.x -= 1;
             } else if (direction == Game.RIGHT) {
-                if (head.x + 1 <= Game.BOARD_WIDTH) {
-                    head.x += 1;// = new Point(head.x + 1, head.y);
-                } else {
-                    setAfterCollision();
-                }
+                head.x += 1;
             }
             if (points.size() > super.tail) {
                 points.remove(0);

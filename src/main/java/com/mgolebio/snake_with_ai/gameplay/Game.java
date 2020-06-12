@@ -46,7 +46,6 @@ public class Game implements ActionListener {
         gameObjects.add(human);
         enemySnake = new EnemySnake(UP,human.points);
         gameObjects.add(enemySnake);
-        //enemySnake.setFruit(fruitGenerator.fruit);
         fruitGenerator.setBot(enemySnake);
         fruitGenerator.setHuman(human);
         frog.setBot(enemySnake);
